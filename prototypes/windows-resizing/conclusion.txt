@@ -1,0 +1,2 @@
+A parte gráfica do jogo será construída apenas na resolução 1024x768 (-14x-77).
+O jogo suportará apenas o modo janela.
