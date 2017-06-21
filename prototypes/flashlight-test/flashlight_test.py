@@ -19,7 +19,7 @@ class BlackUnit(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         
-        self.image = pygame.Surface([10, 10]).convert_alpha()
+        self.image = pygame.Surface([30, 30]).convert_alpha()
         self.image.fill(BLACK)
         
         self.rect = self.image.get_rect()
@@ -32,7 +32,7 @@ class Lantern(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         
-        self.image = pygame.image.load('lantern_light.png')
+        self.image = pygame.image.load('flashlight.png')
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_threshold(self.image, WHITE, WHITE)
         
@@ -58,8 +58,8 @@ class Lantern(pygame.sprite.Sprite):
 black_screen = pygame.sprite.Group()
 
 # -- Sprites --
-for y in range(0, SCR_HEIGHT, 10):
-    for x in range(0, SCR_WIDTH, 10):
+for y in range(0, SCR_HEIGHT, 30):
+    for x in range(0, SCR_WIDTH, 30):
         black_unit = BlackUnit(x, y)
         black_screen.add(black_unit)
         
