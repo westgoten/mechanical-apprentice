@@ -32,7 +32,7 @@ class Lantern(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         
-        self.image = pygame.image.load('flashlight.png')
+        self.image = pygame.image.load('flashlight200_30.png')
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_threshold(self.image, WHITE, WHITE)
         
@@ -82,7 +82,7 @@ while not done:
     lantern.draw(screen)
     
     pygame.display.flip()
-    clock.tick(30)
+    clock.tick(60)
     pygame.display.set_caption('Lantern Test. FPS: {}'.format(clock.get_fps()))
     
 pygame.quit()
