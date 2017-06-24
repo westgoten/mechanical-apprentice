@@ -34,6 +34,7 @@ def main():
         game.draw_frame(screen)
 
         clock.tick(60)
+        pygame.display.set_caption('Game: {}fps'.format(clock.get_fps()))
 
     pygame.quit()
 
