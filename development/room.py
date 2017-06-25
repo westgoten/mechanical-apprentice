@@ -11,9 +11,8 @@ class Template():
 
         self.background = (0, 0, 0)
 
-    def update(self, mouse_click):
-        self.objects.update(mouse_click)
-        self.details.update(mouse_click)
+    def update(self):
+        self.objects.update()
 
     def draw(self, screen):
         screen.fill(self.background)

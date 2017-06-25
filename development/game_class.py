@@ -16,9 +16,9 @@ class Game():
         white_room = room.Template('WHITE_ROOM')
         white_room.background = WHITE
 
-        white_room_details = [(0, (SCR_HEIGHT - 300) / 2, 100, 300, 'RED_ROOM'),
-                              (SCR_WIDTH - 100, (SCR_HEIGHT - 300) / 2, 100, 300, 'BLUE_ROOM'),
-                              ((SCR_WIDTH - 300) / 2, 0, 300, 150, 'GREEN_ROOM')]
+        white_room_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'RED_ROOM'),
+                              (SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'BLUE_ROOM'),
+                              ((SCR_WIDTH - 300) // 2, 0, 300, 150, 'GREEN_ROOM')]
 
         for detail in white_room_details:
             dimensions = detail[0:4]
@@ -28,7 +28,7 @@ class Game():
         red_room = room.Template('RED_ROOM')
         red_room.background = RED
 
-        red_room_details = [(SCR_WIDTH - 100, (SCR_HEIGHT - 300) / 2, 100, 300, 'WHITE_ROOM')]
+        red_room_details = [(SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'WHITE_ROOM')]
 
         for detail in red_room_details:
             dimensions = detail[0:4]
@@ -38,7 +38,7 @@ class Game():
         blue_room = room.Template('BLUE_ROOM')
         blue_room.background = BLUE
 
-        blue_room_details = [(0, (SCR_HEIGHT - 300) / 2, 100, 300, 'WHITE_ROOM')]
+        blue_room_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'WHITE_ROOM')]
 
         for detail in blue_room_details:
             dimensions = detail[0:4]
@@ -48,7 +48,7 @@ class Game():
         green_room = room.Template('GREEN_ROOM')
         green_room.background = GREEN
 
-        green_room_details = [((SCR_WIDTH - 300) / 2, SCR_HEIGHT - 150, 300, 150, 'WHITE_ROOM')]
+        green_room_details = [((SCR_WIDTH - 300) // 2, SCR_HEIGHT - 150, 300, 150, 'WHITE_ROOM')]
 
         for detail in green_room_details:
             dimensions = detail[0:4]
@@ -69,16 +69,13 @@ class Game():
             if event.type == pygame.QUIT:
                 return True
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                self.mouse_click = True
+                self.current_room.details.update()
 
         return False
 
     def run_logic(self):
         previous_room = self.current_room
-        self.current_room.update(self.mouse_click)
-        if self.mouse_click == True:
-            self.mouse_click = False
-        # Crie outra variável para os objetos de arrastar
+        self.current_room.update()
 
         self.current_room = self.rooms_dict[self.current_room.next_r]
 
