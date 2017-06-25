@@ -24,13 +24,10 @@ def main():
 
     # -- Main loop --
     while not done:
-        # -- Process events --
         done = game.process_events()
 
-        # -- Game logic --
         game.run_logic()
 
-        # -- Draw frame --
         game.draw_frame(screen)
 
         clock.tick(60)
