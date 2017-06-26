@@ -8,6 +8,7 @@ BLUE  = (0, 0, 255)
 GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+GRAY  = (160, 160, 160)
 
 # -- Screen size --
 SCR_WIDTH  = 1010

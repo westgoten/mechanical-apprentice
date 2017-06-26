@@ -1,7 +1,6 @@
-Criar classes (uma de teste) dos objetos obtíveis;
-Permitir guardar objetos no inventário;
-Permitir arrastar objetos do inventário;
 Permitir interação entre objetos do inventário;
+Permitir arrastar objetos do inventário;
 Criar classes (uma de teste) dos objetos não obtíveis;
 Permitir interação entre mouse e objetos não obtíveis;
-Permitir interação entre objetos obtíveis e objetos não obtíveis.
+Permitir interação entre objetos obtíveis e objetos não obtíveis;
+Corrigir imports.
