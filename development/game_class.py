@@ -6,7 +6,7 @@ import pygame
 import scenario
 import inventory
 from scenario_obtainables import Obtainable
-from inventory_objects import Flashlight
+from inventory_objects import *
 import exits_and_details as ead
 from constants import *
 
@@ -28,9 +28,13 @@ class Game():
             white_room.details.add(ead.Template(white_room, dimensions, next_s))
 
         # Obtainables instances
-        flashlight_s = Obtainable(200, 300, 200, 200, GRAY, white_room, Flashlight)
+        flashlight_s = Obtainable(200, 300, 150, 150, GRAY, white_room, Flashlight)
         white_room.obtainables.add(flashlight_s)
         white_room.visible_objects.add(flashlight_s)
+
+        batteries_s = Obtainable(375, 275, 50, 50, YELLOW, white_room, Batteries)
+        white_room.obtainables.add(batteries_s)
+        white_room.visible_objects.add(batteries_s)
 
         # Inventory and its objects instances
         self.bag = inventory.Inventory()
@@ -44,8 +48,13 @@ class Game():
             slot = inventory.Slot(dimensions)
             self.bag.slots.append(slot)
 
-        flashlight_i = Flashlight(80, 80, GRAY, white_room)
+        colors = [GRAY, GREEN]
+        flashlight_i = Flashlight(80, 80, colors)
         self.bag.objects.add(flashlight_i)
+
+        colors = [YELLOW]
+        batteries_i = Batteries(80, 80, colors)
+        self.bag.objects.add(batteries_i)
 
         red_room = scenario.Template(RED, 'RED_ROOM')
 
@@ -81,8 +90,6 @@ class Game():
 
         self.current_scenario = self.scenarios_dict['WHITE_ROOM']
 
-        self.mouse_click = False
-
     def process_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -90,6 +97,11 @@ class Game():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.current_scenario.obtainables.update(self.bag, event.pos)
                 self.current_scenario.details.update(event.pos)
+                for obj in self.bag.objects:
+                    obj.is_dragging(self.bag, True)
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                for obj in self.bag.objects:
+                    obj.is_dragging(self.bag, False)
 
         return False
 

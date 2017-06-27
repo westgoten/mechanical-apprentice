@@ -19,8 +19,16 @@ class Inventory():
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
+        last_to_blit = None
+
         for obj in self.objects:
-            obj.draw(screen)
+            if not obj.dragged:
+                obj.draw(screen)
+            else:
+                last_to_blit = obj
+
+        if last_to_blit != None:
+            last_to_blit.draw(screen)
 
 class Slot(pygame.sprite.Sprite):
 
