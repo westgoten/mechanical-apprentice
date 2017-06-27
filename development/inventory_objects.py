@@ -1,13 +1,12 @@
 import pygame
+from constants import *
 
 class Template(pygame.sprite.Sprite):
 
-    def __init__(self, width, height, image):
+    def __init__(self):
         super().__init__()
 
-        self.colors = image
-        self.image = pygame.Surface([width, height]).convert()
-        self.image.fill(self.colors[0]) # Por enquanto, 'image' é uma lista de cores
+        self.size = (80, 80)
 
         self.rect = None
 
@@ -64,6 +63,16 @@ class Template(pygame.sprite.Sprite):
 
 class Flashlight(Template):
 
+    def __init__(self):
+        super().__init__()
+
+        self.state_index = 0
+        self.states_list = [GRAY, GREEN]
+        self.current_state = self.states_list[self.state_index]
+
+        self.image = pygame.Surface(self.size)
+        self.image.fill(self.current_state)
+
     def update(self, inventory):
         super().update(inventory)
 
@@ -78,12 +87,23 @@ class Flashlight(Template):
                         self.slot = obj.slot
                         obj.kill()
 
-                        self.image.fill(self.colors[1])
+                        if self.state_index < len(self.states_list):
+                            self.state_index += 1
+
+                        self.current_state = self.states_list[self.state_index]
+
+                        self.image.fill(self.current_state)
 
             # Drag & Release
             self.drag_and_release(inventory, mouse_pos)
 
 class Batteries(Template):
+
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.Surface(self.size)
+        self.image.fill(YELLOW)
 
     def update(self, inventory):
         super().update(inventory)
@@ -98,7 +118,28 @@ class Batteries(Template):
                         self.slot.available = True
                         self.kill()
 
-                        obj.image.fill(obj.colors[1])
+                        if obj.state_index < len(obj.states_list):
+                            obj.state_index += 1
+
+                        obj.current_state = obj.states_list[obj.state_index]
+
+                        obj.image.fill(obj.current_state)
 
             # Drag & Release
+            self.drag_and_release(inventory, mouse_pos)
+
+class WarehouseKey(Template):
+
+    def __init__(self):
+        super().__init__()
+
+        self.image = pygame.Surface(self.size)
+        self.image.fill(SOFT_BLUE)
+
+    def update(self, inventory):
+        super().update(inventory)
+
+        mouse_pos = pygame.mouse.get_pos()
+
+        if self.in_inventory:
             self.drag_and_release(inventory, mouse_pos)

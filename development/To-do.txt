@@ -1,4 +1,7 @@
-Criar classes (uma de teste) dos objetos não obtíveis (e.g.: porta);
-Criar classes das chaves;
-Permitir interação entre objetos obtíveis e objetos não obtíveis;
-Permitir interação entre mouse e objetos não obtíveis.
+Criar classes de objetos obtíveis (inv) referentes ao Desafio 1;
+Criar classes de objetos não obtíveis referentes ao Desafio 1;
+#INICIAR FASE ARTE GRÁFICA (DESAFIO 1)#
+Corrigir parâmetros e variáveis;
+Corrigir imports;
+Instanciar cenários corretos;
+Instanciar objetos corretos.

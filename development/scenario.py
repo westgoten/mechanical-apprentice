@@ -7,6 +7,7 @@ class Template():
         self.next_s = default_s
 
         self.obtainables = pygame.sprite.Group()
+        self.not_obtainables = pygame.sprite.Group()
         self.details = pygame.sprite.Group()
         self.visible_objects = pygame.sprite.Group()
 

@@ -2,7 +2,7 @@ import pygame
 
 class Obtainable(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, width, height, image, scenario, matching_class):
+    def __init__(self, x, y, width, height, image, matching_class):
         super().__init__()
 
         self.image = pygame.Surface([width, height]).convert()
