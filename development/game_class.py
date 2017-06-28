@@ -40,14 +40,15 @@ class Game():
         # White room
         white_room = scenario.Template(WHITE, 'WHITE_ROOM')
 
-        white_room_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'RED_ROOM'),
-                              (SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'BLUE_ROOM'),
-                              ((SCR_WIDTH - 300) // 2, 0, 300, 150, 'GREEN_ROOM')]
+        white_room_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'RED_ROOM', True),
+                              (SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'BLUE_ROOM', True),
+                              ((SCR_WIDTH - 300) // 2, 0, 300, 150, 'GREEN_ROOM', True)]
 
         for detail in white_room_details:
             dimensions = detail[0:4]
             next_s = detail[4]
-            white_room.details.add(ead.Template(white_room, dimensions, next_s))
+            in_demo = detail[5]
+            white_room.details.add(ead.Template(white_room, dimensions, next_s, in_demo))
 
         # Obtainables instances
         flashlight_s = Obtainable(200, 300, 150, 150, GRAY, Flashlight)
@@ -61,12 +62,13 @@ class Game():
         # Red room
         red_room = scenario.Template(RED, 'RED_ROOM')
 
-        red_room_details = [(SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'WHITE_ROOM')]
+        red_room_details = [(SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'WHITE_ROOM', True)]
 
         for detail in red_room_details:
             dimensions = detail[0:4]
             next_s = detail[4]
-            red_room.details.add(ead.Template(red_room, dimensions, next_s))
+            in_demo = detail[5]
+            red_room.details.add(ead.Template(red_room, dimensions, next_s, in_demo))
 
         # Obtainables instances
         warehousekey_s = Obtainable(200, 200, 50, 50, SOFT_BLUE, WarehouseKey)
@@ -74,29 +76,31 @@ class Game():
         red_room.visible_objects.add(warehousekey_s)
 
         # Not obtainables instances
-        warehouse_door = Door(SCR_WIDTH - 200, 200, [BROWN, DARK_PINK, LIGHT_BLUE], WarehouseKey, None)
+        warehouse_door = LockedDoor(SCR_WIDTH - 200, 200, [BROWN, DARK_PINK, LIGHT_BLUE], WarehouseKey, None, True)
         red_room.not_obtainables.add(warehouse_door)
         red_room.visible_objects.add(warehouse_door)
 
         # Blue room
         blue_room = scenario.Template(BLUE, 'BLUE_ROOM')
 
-        blue_room_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'WHITE_ROOM')]
+        blue_room_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'WHITE_ROOM', True)]
 
         for detail in blue_room_details:
             dimensions = detail[0:4]
             next_s = detail[4]
-            blue_room.details.add(ead.Template(blue_room, dimensions, next_s))
+            in_demo = detail[5]
+            blue_room.details.add(ead.Template(blue_room, dimensions, next_s, in_demo))
 
         # Green room
         green_room = scenario.Template(GREEN, 'GREEN_ROOM')
 
-        green_room_details = [((SCR_WIDTH - 300) // 2, SCR_HEIGHT - 150, 300, 150, 'WHITE_ROOM')]
+        green_room_details = [((SCR_WIDTH - 300) // 2, SCR_HEIGHT - 150, 300, 150, 'WHITE_ROOM', True)]
 
         for detail in green_room_details:
             dimensions = detail[0:4]
             next_s = detail[4]
-            green_room.details.add(ead.Template(green_room, dimensions, next_s))
+            in_demo = detail[5]
+            green_room.details.add(ead.Template(green_room, dimensions, next_s, in_demo))
 
         self.scenarios_dict = {'WHITE_ROOM' : white_room,
                                'RED_ROOM'   : red_room,

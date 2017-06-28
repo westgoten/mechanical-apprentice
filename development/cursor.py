@@ -1,10 +1,6 @@
 """
 This script includes a function that can compile cursor data from an image.
 
-There are both advantages and disadvantages to using a real cursor over an
-image that follows the mouse. See the documentation at the top of the example
-script for more details.
-
 -Sean McKiernan
 """
 
