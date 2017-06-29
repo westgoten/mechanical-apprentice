@@ -5,7 +5,7 @@ class Inventory():
 
     def __init__(self):
         self.image = pygame.Surface([(7*80 + 6*10 + 2*10), 100]).convert()
-        self.image.fill(BLACK)
+        self.image.fill(DARK_GREEN)
         
         self.rect = self.image.get_rect()
         self.rect.topleft = (0, (SCR_HEIGHT - 100))
@@ -13,8 +13,10 @@ class Inventory():
         self.slots = []
         self.objects = pygame.sprite.Group()
 
-    def update(self):
-        self.objects.update(self)
+        self.flashlight_working = False
+
+    def update(self, scenario, light_ray):
+        self.objects.update(self, scenario, light_ray)
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

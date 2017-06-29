@@ -32,7 +32,7 @@ class Lantern(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         
-        self.image = pygame.image.load('flashlight200_30.png')
+        self.image = pygame.image.load('flashlight200_30.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_threshold(self.image, WHITE, WHITE)
         

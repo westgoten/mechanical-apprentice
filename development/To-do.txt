@@ -1,9 +1,3 @@
-Criar classes de objetos não obtíveis referentes ao Desafio 1;
-- Objeto que esconde a chave do almoxarifado (deve ser empurrado)
-
-Implementar mecânica da lanterna;
-- Criar porta destrancada que dá acesso à sala escura
-
 #INICIAR FASE ARTE GRÁFICA (DESAFIO 1)#
 Corrigir parâmetros e variáveis;
 Corrigir imports;

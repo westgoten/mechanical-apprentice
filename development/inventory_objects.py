@@ -53,6 +53,7 @@ class Template(pygame.sprite.Sprite):
                         self.slot.available = True
                         slot.available = False
                         self.slot = slot
+                        break
 
             self.dragged = False
             self.rect.topleft = self.slot.rect.topleft
@@ -67,13 +68,15 @@ class Flashlight(Template):
         super().__init__()
 
         self.state_index = 0
-        self.states_list = [GRAY, GREEN]
+        self.states_list = [GRAY, GREEN, RED]
         self.current_state = self.states_list[self.state_index]
 
         self.image = pygame.Surface(self.size)
         self.image.fill(self.current_state)
 
-    def update(self, inventory):
+        self.on = False
+
+    def update(self, inventory, scenario, light_ray):
         super().update(inventory)
 
         mouse_pos = pygame.mouse.get_pos()
@@ -82,20 +85,40 @@ class Flashlight(Template):
             # Interaction with a inventory object
             if self.dragged and not self.mouse_button_hold:
                 for obj in inventory.objects:
-                    if obj.rect.collidepoint(mouse_pos) and isinstance(obj, Batteries):
-                        self.slot.available = True
-                        self.slot = obj.slot
-                        obj.kill()
+                    if obj.rect != None:
+                        if obj.rect.collidepoint(mouse_pos) and isinstance(obj, Batteries):
+                            self.slot.available = True
+                            self.slot = obj.slot
+                            obj.kill()
 
-                        if self.state_index < len(self.states_list):
-                            self.state_index += 1
+                            if self.state_index < len(self.states_list):
+                                self.state_index += 1
 
-                        self.current_state = self.states_list[self.state_index]
-
-                        self.image.fill(self.current_state)
+                            self.current_state = self.states_list[self.state_index]
+                            self.image.fill(self.current_state)
+                            inventory.flashlight_working = True
+                            break
 
             # Drag & Release
             self.drag_and_release(inventory, mouse_pos)
+
+            # Turn flashlight on or off
+            self.turn_on_off(scenario, light_ray, mouse_pos)
+
+    def turn_on_off(self, scenario, light_ray, mouse_pos):
+        if scenario.black_screen != None and self.state_index == 1:
+            self.state_index += 1
+            self.current_state = self.states_list[self.state_index]
+            self.image.fill(self.current_state)
+            self.on = True
+        elif scenario.black_screen == None and self.state_index == 2:
+            self.state_index -= 1
+            self.current_state = self.states_list[self.state_index]
+            self.image.fill(self.current_state)
+            self.on = False
+
+        if self.on:
+            light_ray.update(scenario, mouse_pos)
 
 class Batteries(Template):
 
@@ -105,7 +128,7 @@ class Batteries(Template):
         self.image = pygame.Surface(self.size)
         self.image.fill(YELLOW)
 
-    def update(self, inventory):
+    def update(self, inventory, scenario, light_ray):
         super().update(inventory)
 
         mouse_pos = pygame.mouse.get_pos()
@@ -114,16 +137,18 @@ class Batteries(Template):
             # Interaction with a inventory object
             if self.dragged and not self.mouse_button_hold:
                 for obj in inventory.objects:
-                    if obj.rect.collidepoint(mouse_pos) and isinstance(obj, Flashlight):
-                        self.slot.available = True
-                        self.kill()
+                    if obj.rect != None:
+                        if obj.rect.collidepoint(mouse_pos) and isinstance(obj, Flashlight):
+                            self.slot.available = True
+                            self.kill()
 
-                        if obj.state_index < len(obj.states_list):
-                            obj.state_index += 1
+                            if obj.state_index < len(obj.states_list):
+                                obj.state_index += 1
 
-                        obj.current_state = obj.states_list[obj.state_index]
-
-                        obj.image.fill(obj.current_state)
+                            obj.current_state = obj.states_list[obj.state_index]
+                            obj.image.fill(obj.current_state)
+                            inventory.flashlight_working = True
+                            break
 
             # Drag & Release
             self.drag_and_release(inventory, mouse_pos)
@@ -136,7 +161,7 @@ class WarehouseKey(Template):
         self.image = pygame.Surface(self.size)
         self.image.fill(SOFT_BLUE)
 
-    def update(self, inventory):
+    def update(self, inventory, scenario, light_ray):
         super().update(inventory)
 
         mouse_pos = pygame.mouse.get_pos()
