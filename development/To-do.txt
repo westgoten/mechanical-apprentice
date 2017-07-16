@@ -2,4 +2,4 @@
 Corrigir parâmetros e variáveis;
 Corrigir imports;
 Instanciar cenários corretos;
-Instanciar objetos corretos.
+Instanciar objetos corretos;
