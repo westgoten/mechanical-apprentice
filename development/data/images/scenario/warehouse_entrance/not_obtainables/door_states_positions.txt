@@ -1,0 +1,3 @@
+State 1: X = 408 px; Y = 12 px 
+State 2: X = 408 px; Y = 12 px
+State 3: X = 408 px; Y = 7 px
