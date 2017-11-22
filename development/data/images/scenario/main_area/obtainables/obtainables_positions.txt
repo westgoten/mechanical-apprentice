@@ -1,0 +1,2 @@
+Pilhas: X = 362; Y = 403
+Lanterna: X = 336; Y = 393

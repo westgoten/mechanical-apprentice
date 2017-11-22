@@ -1,0 +1,2 @@
+Estado 1: X = 689 px; Y = 95 px
+Estado 2: X = 690 px; Y = 95 px
