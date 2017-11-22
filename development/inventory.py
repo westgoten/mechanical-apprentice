@@ -1,14 +1,14 @@
+import os
 import pygame
 from constants import *
 
 class Inventory():
 
     def __init__(self):
-        self.image = pygame.Surface([(7*80 + 6*10 + 2*10), 100]).convert()
-        self.image.fill(DARK_GREEN)
+        self.image = pygame.image.load(os.path.join('data', 'images', 'inventory', 'inventory.png')).convert()
         
         self.rect = self.image.get_rect()
-        self.rect.topleft = (0, (SCR_HEIGHT - 100))
+        self.rect.topleft = ((SCR_WIDTH - self.rect.width) / 2, (SCR_HEIGHT - self.rect.height))
         
         self.slots = []
         self.objects = pygame.sprite.Group()

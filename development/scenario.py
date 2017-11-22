@@ -17,7 +17,7 @@ class Template():
         self.black_screen = None
 
     def draw(self, screen):
-        screen.fill(self.background) # Por enquanto, 'background' é uma cor
+        screen.blit(self.background, (0, 0))
         self.visible_objects.draw(screen)
         if self.black_screen != None:
             self.black_screen.draw(screen)

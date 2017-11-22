@@ -1,3 +1,4 @@
+import os
 import pygame
 from constants import *
 
@@ -5,8 +6,6 @@ class Template(pygame.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
-
-        self.size = (80, 80)
 
         self.rect = None
 
@@ -25,7 +24,7 @@ class Template(pygame.sprite.Sprite):
             self.rect = self.image.get_rect()
             for slot in inventory.slots:
                 if slot.available:
-                    self.rect.topleft = slot.rect.topleft
+                    self.rect.center = slot.rect.center
                     slot.available = False
                     self.slot = slot
                     break
@@ -56,7 +55,7 @@ class Template(pygame.sprite.Sprite):
                         break
 
             self.dragged = False
-            self.rect.topleft = self.slot.rect.topleft
+            self.rect.center = self.slot.rect.center
 
     def draw(self, screen):
         if self.rect != None:
@@ -67,12 +66,15 @@ class Flashlight(Template):
     def __init__(self):
         super().__init__()
 
+        state1 = pygame.image.load(os.path.join('data', 'images', 'inventory', 'objects', 'flashlight_1.png')).convert_alpha()
+        state2 = pygame.image.load(os.path.join('data', 'images', 'inventory', 'objects', 'flashlight_2.png')).convert_alpha()
+        state3 = pygame.image.load(os.path.join('data', 'images', 'inventory', 'objects', 'flashlight_3.png')).convert_alpha()
+
         self.state_index = 0
-        self.states_list = [GRAY, GREEN, RED]
+        self.states_list = [state1, state2, state3]
         self.current_state = self.states_list[self.state_index]
 
-        self.image = pygame.Surface(self.size)
-        self.image.fill(self.current_state)
+        self.image = self.current_state
 
         self.on = False
 
@@ -89,13 +91,13 @@ class Flashlight(Template):
                         if obj.rect.collidepoint(mouse_pos) and isinstance(obj, Batteries):
                             self.slot.available = True
                             self.slot = obj.slot
-                            obj.kill()
+                            obj.kill() # Eu deveria colocar in_inventory = False?
 
                             if self.state_index < len(self.states_list):
                                 self.state_index += 1
 
                             self.current_state = self.states_list[self.state_index]
-                            self.image.fill(self.current_state)
+                            self.image = self.current_state
                             inventory.flashlight_working = True
                             break
 
@@ -109,12 +111,12 @@ class Flashlight(Template):
         if scenario.black_screen != None and self.state_index == 1:
             self.state_index += 1
             self.current_state = self.states_list[self.state_index]
-            self.image.fill(self.current_state)
+            self.image = self.current_state
             self.on = True
         elif scenario.black_screen == None and self.state_index == 2:
             self.state_index -= 1
             self.current_state = self.states_list[self.state_index]
-            self.image.fill(self.current_state)
+            self.image = self.current_state
             self.on = False
 
         if self.on:
@@ -125,8 +127,7 @@ class Batteries(Template):
     def __init__(self):
         super().__init__()
 
-        self.image = pygame.Surface(self.size)
-        self.image.fill(YELLOW)
+        self.image = pygame.image.load(os.path.join('data', 'images', 'inventory', 'objects', 'batteries_i.png')).convert_alpha()
 
     def update(self, inventory, scenario, light_ray):
         super().update(inventory)
@@ -140,13 +141,13 @@ class Batteries(Template):
                     if obj.rect != None:
                         if obj.rect.collidepoint(mouse_pos) and isinstance(obj, Flashlight):
                             self.slot.available = True
-                            self.kill()
+                            self.kill() # Eu deveria colocar in_inventory = False?
 
                             if obj.state_index < len(obj.states_list):
                                 obj.state_index += 1
 
                             obj.current_state = obj.states_list[obj.state_index]
-                            obj.image.fill(obj.current_state)
+                            obj.image = obj.current_state
                             inventory.flashlight_working = True
                             break
 
@@ -158,8 +159,7 @@ class WarehouseKey(Template):
     def __init__(self):
         super().__init__()
 
-        self.image = pygame.Surface(self.size)
-        self.image.fill(SOFT_BLUE)
+        self.image = pygame.image.load(os.path.join('data', 'images', 'inventory', 'objects', 'warehouse_key_i.png')).convert_alpha()
 
     def update(self, inventory, scenario, light_ray):
         super().update(inventory)

@@ -11,14 +11,11 @@ class LockedDoor(pygame.sprite.Sprite):
         self.key_class = key_class
         self.next_s = next_s
 
-        self.size = (100, 200)
-
         self.state_index = 0
         self.states_list = states_list
         self.current_state = self.states_list[self.state_index]
 
-        self.image = pygame.Surface(self.size).convert()
-        self.image.fill(self.current_state)
+        self.image = self.current_state
 
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -33,7 +30,8 @@ class LockedDoor(pygame.sprite.Sprite):
             elif self.state_index == 1:
                 self.state_index += 1
                 self.current_state = self.states_list[self.state_index]
-                self.image.fill(self.current_state)
+                self.image = self.current_state
+                self.rect.y = 7
             elif self.state_index == 2:
                 print('Próximo cenário!')
 
@@ -44,9 +42,9 @@ class LockedDoor(pygame.sprite.Sprite):
                     if self.rect.collidepoint(obj.rect.center) and isinstance(obj, self.key_class):
                         self.state_index += 1
                         self.current_state = self.states_list[self.state_index]
-                        self.image.fill(self.current_state)
+                        self.image = self.current_state
 
-                        obj.kill()
+                        obj.kill() # Eu deveria colocar in_inventory = False?
 
 class UnlockedDoor(pygame.sprite.Sprite):
 
@@ -57,14 +55,11 @@ class UnlockedDoor(pygame.sprite.Sprite):
 
         self.next_s = next_s
 
-        self.size = (100, 200)
-
         self.state_index = 0
         self.states_list = states_list
         self.current_state = self.states_list[self.state_index]
 
-        self.image = pygame.Surface(self.size).convert()
-        self.image.fill(self.current_state)
+        self.image = self.current_state
 
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -78,7 +73,7 @@ class UnlockedDoor(pygame.sprite.Sprite):
                 if self.state_index == 0:
                     self.state_index += 1
                     self.current_state = self.states_list[self.state_index]
-                    self.image.fill(self.current_state)
+                    self.image = self.current_state
                 elif self.next_s != None:
                     scenario.next_s = self.next_s
                 else:
@@ -91,24 +86,19 @@ class UnlockedDoor(pygame.sprite.Sprite):
 
 class Obstacle(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, states_list, obtainable_class, obtainable_args):
+    def __init__(self, x, y, image, obtainable_class, obtainable_args):
         super().__init__()
 
         self.obtainable_class = obtainable_class
         self.obtainable_args = obtainable_args
 
-        self.size = (100, 100)
+        self.state = 'IDLE'
 
-        self.state_index = 0
-        self.states_list = states_list
-        self.current_state = self.states_list[self.state_index]
-
-        self.image = pygame.Surface(self.size).convert()
-        self.image.fill(self.current_state)
+        self.image = image
 
         self.rect = self.image.get_rect()
-        self.rect.x = x - 10
-        self.rect.y = y - self.size[1] + 50
+        self.rect.x = x
+        self.rect.y = y
 
     def click(self, scenario, inventory):
         mouse_pos = pygame.mouse.get_pos()
@@ -116,9 +106,9 @@ class Obstacle(pygame.sprite.Sprite):
         if inventory.flashlight_working:
             if self.rect.collidepoint(mouse_pos):
                 # Lembre-se do efeito sonoro
-                if self.state_index == 0:
-                    self.rect.x += 50 + 20
-                    self.state_index += 1
+                if self.state == 'IDLE':
+                    self.rect.x += 19
+                    self.state = 'MOVED'
 
                     warehousekey_s = self.obtainable_class(*self.obtainable_args)
                     scenario.obtainables.add(warehousekey_s)

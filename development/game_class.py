@@ -2,6 +2,7 @@
 Game class. Controls all the game needs inside the main loop.
 """
 
+import os
 import pygame
 import scenario
 import inventory
@@ -20,9 +21,9 @@ class Game():
         self.bag = inventory.Inventory()
 
         for i in range(7):
-            slot_x = 10 + 90 * i
-            slot_y = self.bag.rect.y + 10
-            slot_width = slot_height = 80
+            slot_x = self.bag.rect.x + 6.5 + 58.5 * i
+            slot_y = self.bag.rect.y + 6.5
+            slot_width = slot_height = 52
             dimensions = (slot_x, slot_y, slot_width, slot_height)
             
             slot = inventory.Slot(dimensions)
@@ -37,86 +38,95 @@ class Game():
         warehousekey_i = WarehouseKey()
         self.bag.objects.add(warehousekey_i)
 
-        # White room
-        white_room = scenario.Template(WHITE, 'WHITE_ROOM')
+        # Main area
+        background = pygame.image.load(os.path.join('data', 'images', 'scenario', 'main_area', 'main_area.png')).convert_alpha()
 
-        white_room_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'RED_ROOM', True),
-                              (SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'BLUE_ROOM', True),
-                              ((SCR_WIDTH - 300) // 2, 0, 300, 150, 'GREEN_ROOM', True)]
+        main_area = scenario.Template(background, 'MAIN_AREA')
 
-        for detail in white_room_details:
+        main_area_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'WAREHOUSE_ENT', True),
+                              (SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'DEPARTMENTS', True),
+                              ((SCR_WIDTH - 300) // 2, 0, 300, 150, 'GREEN_ROOM', False)]
+
+        for detail in main_area_details:
             dimensions = detail[0:4]
             next_s = detail[4]
             in_demo = detail[5]
-            white_room.details.add(ead.Template(white_room, dimensions, next_s, in_demo))
+            main_area.details.add(ead.Template(main_area, dimensions, next_s, in_demo))
 
         # Obtainables instances
-        flashlight_s = Obtainable(200, 300, 150, 150, GRAY, Flashlight)
-        white_room.obtainables.add(flashlight_s)
-        white_room.visible_objects.add(flashlight_s)
+        obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'main_area', 'obtainables', 'flashlight.png')).convert_alpha()
+        flashlight_s = Obtainable(336, 393, obt_image, Flashlight)
+        main_area.obtainables.add(flashlight_s)
+        main_area.visible_objects.add(flashlight_s)
 
-        batteries_s = Obtainable(375, 275, 50, 50, YELLOW, Batteries)
-        white_room.obtainables.add(batteries_s)
-        white_room.visible_objects.add(batteries_s)
+        obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'main_area', 'obtainables', 'batteries.png')).convert_alpha()
+        batteries_s = Obtainable(362, 403, obt_image, Batteries)
+        main_area.obtainables.add(batteries_s)
+        main_area.visible_objects.add(batteries_s)
 
-        # Red room
-        red_room = scenario.Template(RED, 'RED_ROOM')
+        # Warehouse entrance
+        background = pygame.image.load(os.path.join('data', 'images', 'scenario', 'warehouse_entrance', 'warehouse_ent.png')).convert_alpha()
 
-        red_room_details = [(SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'WHITE_ROOM', True)]
+        warehouse_ent = scenario.Template(background, 'WAREHOUSE_ENT')
 
-        for detail in red_room_details:
+        warehouse_ent_details = [(SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'MAIN_AREA', True)]
+
+        for detail in warehouse_ent_details:
             dimensions = detail[0:4]
             next_s = detail[4]
             in_demo = detail[5]
-            red_room.details.add(ead.Template(red_room, dimensions, next_s, in_demo))
+            warehouse_ent.details.add(ead.Template(warehouse_ent, dimensions, next_s, in_demo))
 
         # Not obtainables instances
-        warehouse_door = LockedDoor(SCR_WIDTH - 200, 200, [BROWN, SOFT_GREEN, WHITE], WarehouseKey, None, True)
-        red_room.not_obtainables.add(warehouse_door)
-        red_room.visible_objects.add(warehouse_door)
+        state1 = pygame.image.load(os.path.join('data', 'images', 'scenario', 'warehouse_entrance', 'not_obtainables', 'warehouse_door1.png')).convert_alpha()
+        state2 = pygame.image.load(os.path.join('data', 'images', 'scenario', 'warehouse_entrance', 'not_obtainables', 'warehouse_door2.png')).convert_alpha()
+        state3 = pygame.image.load(os.path.join('data', 'images', 'scenario', 'warehouse_entrance', 'not_obtainables', 'warehouse_door3.png')).convert_alpha()
 
-        # Blue room
-        blue_room = scenario.Template(BLUE, 'BLUE_ROOM')
+        warehouse_door = LockedDoor(408, 12, [state1, state2, state3], WarehouseKey, None, True)
+        warehouse_ent.not_obtainables.add(warehouse_door)
+        warehouse_ent.visible_objects.add(warehouse_door)
 
-        blue_room_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'WHITE_ROOM', True)]
+        # Departments
+        background = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'deptms.png')).convert_alpha()
 
-        for detail in blue_room_details:
+        departments = scenario.Template(background, 'DEPARTMENTS')
+
+        departments_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'MAIN_AREA', True)]
+
+        for detail in departments_details:
             dimensions = detail[0:4]
             next_s = detail[4]
             in_demo = detail[5]
-            blue_room.details.add(ead.Template(blue_room, dimensions, next_s, in_demo))
+            departments.details.add(ead.Template(departments, dimensions, next_s, in_demo))
 
         # Not obtainables instances
-        department_of_materials_door = UnlockedDoor(SCR_WIDTH - 200, 200, [SOFT_GREEN, WHITE], 'SYELLOW_ROOM', True)
-        blue_room.not_obtainables.add(department_of_materials_door)
-        blue_room.visible_objects.add(department_of_materials_door)
+        state1 = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'not_obtns', 'MD_door1.png')).convert_alpha()
+        state2 = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'not_obtns', 'MD_door2.png')).convert_alpha()
 
-        # Green room
-        green_room = scenario.Template(GREEN, 'GREEN_ROOM')
+        department_of_materials_door = UnlockedDoor(689, 95, [state1, state2], 'MATERIALS_DEPT', True)
+        departments.not_obtainables.add(department_of_materials_door)
+        departments.visible_objects.add(department_of_materials_door)
 
-        green_room_details = [((SCR_WIDTH - 300) // 2, SCR_HEIGHT - 150, 300, 150, 'WHITE_ROOM', True)]
+        # Materials department
+        background = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'materials_dept.png')).convert_alpha()
 
-        for detail in green_room_details:
+        materials_dept = scenario.Template(background, 'MATERIALS_DEPT')
+
+        materials_dept_details = [((SCR_WIDTH - 300) // 2, SCR_HEIGHT - 150, 300, 150, 'DEPARTMENTS', True)]
+
+        for detail in materials_dept_details:
             dimensions = detail[0:4]
             next_s = detail[4]
             in_demo = detail[5]
-            green_room.details.add(ead.Template(green_room, dimensions, next_s, in_demo))
+            materials_dept.details.add(ead.Template(materials_dept, dimensions, next_s, in_demo))
 
-        # Soft yellow room
-        syellow_room = scenario.Template(SOFT_YELLOW, 'SYELLOW_ROOM')
+        # Not obtainables (+ hidden obtainable)
+        not_obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'not_obtns', 'obstacle.png')).convert_alpha()
+        obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'obtns', 'warehouse_key.png')).convert_alpha()
 
-        syellow_room_details = [((SCR_WIDTH - 300) // 2, SCR_HEIGHT - 150, 300, 150, 'BLUE_ROOM', True)]
-
-        for detail in syellow_room_details:
-            dimensions = detail[0:4]
-            next_s = detail[4]
-            in_demo = detail[5]
-            syellow_room.details.add(ead.Template(syellow_room, dimensions, next_s, in_demo))
-
-        # Not obtainables
-        obstacle = Obstacle(200, 200, [GRAY], Obtainable, [200, 200, 50, 50, SOFT_BLUE, WarehouseKey])
-        syellow_room.not_obtainables.add(obstacle)
-        syellow_room.visible_objects.add(obstacle)
+        obstacle = Obstacle(776, 356, not_obt_image, Obtainable, [778, 376, obt_image, WarehouseKey])
+        materials_dept.not_obtainables.add(obstacle)
+        materials_dept.visible_objects.add(obstacle)
 
         # Blackout
         black_screen = pygame.sprite.Group()
@@ -125,18 +135,18 @@ class Game():
             for x in range(0, SCR_WIDTH, 30):
                 black_unit = scenario.BlackUnit(x, y)
                 black_screen.add(black_unit)
-        syellow_room.black_screen = black_screen
+        materials_dept.black_screen = black_screen
         
         # Ray of light
         self.light_ray = scenario.LightRay()
 
-        self.scenarios_dict = {'WHITE_ROOM'   : white_room,
-                               'RED_ROOM'     : red_room,
-                               'GREEN_ROOM'   : green_room,
-                               'BLUE_ROOM'    : blue_room,
-                               'SYELLOW_ROOM' : syellow_room}
+        self.scenarios_dict = {'MAIN_AREA'      : main_area,
+                               'WAREHOUSE_ENT'  : warehouse_ent,
+                               'GREEN_ROOM'     : None,
+                               'DEPARTMENTS'    : departments,
+                               'MATERIALS_DEPT' : materials_dept}
 
-        self.current_scenario = self.scenarios_dict['WHITE_ROOM']
+        self.current_scenario = self.scenarios_dict['MAIN_AREA']
 
     def process_events(self):
         for event in pygame.event.get():
