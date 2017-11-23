@@ -1,0 +1,15 @@
+Main Area: (Feito)
+
+warehouse_entrance - 194 (W) x 163 (H); P(579, 255)
+departments - 96 (W) x 184 (H); P(815, 308)
+pressure_vessels - 97 (W) x 187(H); P(114, 315)
+workshop (invisibl) - 26 (W) x 26 (H); P(497, 275)
+
+Departments: (Feito)
+
+main_area - 91 (W) x 143 (H); P(173, 180)
+
+Warehouse Entrance: (Feito)
+
+main_area_1 - 233 (W) x 65 (H); P(0, 626)
+main_area_2 - 166 (W) x 82 (H); P(234, 543)

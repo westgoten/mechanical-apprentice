@@ -43,9 +43,10 @@ class Game():
 
         main_area = scenario.Template(background, 'MAIN_AREA')
 
-        main_area_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'WAREHOUSE_ENT', True),
-                              (SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'DEPARTMENTS', True),
-                              ((SCR_WIDTH - 300) // 2, 0, 300, 150, 'GREEN_ROOM', False)]
+        main_area_details = [(579, 255, 194, 163, 'WAREHOUSE_ENT', True),
+                              (815, 308, 96, 184, 'DEPARTMENTS', True),
+                              (114, 315, 97, 187, 'PV_ROOM', False),
+                              (497, 275, 26, 26, 'WORKSHOP', False)]
 
         for detail in main_area_details:
             dimensions = detail[0:4]
@@ -69,7 +70,8 @@ class Game():
 
         warehouse_ent = scenario.Template(background, 'WAREHOUSE_ENT')
 
-        warehouse_ent_details = [(SCR_WIDTH - 100, (SCR_HEIGHT - 300) // 2, 100, 300, 'MAIN_AREA', True)]
+        warehouse_ent_details = [(0, 626, 233, 65, 'MAIN_AREA', True),
+                                 (234, 543, 166, 82, 'MAIN_AREA', True)]
 
         for detail in warehouse_ent_details:
             dimensions = detail[0:4]
@@ -91,7 +93,7 @@ class Game():
 
         departments = scenario.Template(background, 'DEPARTMENTS')
 
-        departments_details = [(0, (SCR_HEIGHT - 300) // 2, 100, 300, 'MAIN_AREA', True)]
+        departments_details = [(173, 180, 91, 143, 'MAIN_AREA', True)]
 
         for detail in departments_details:
             dimensions = detail[0:4]
@@ -128,6 +130,12 @@ class Game():
         materials_dept.not_obtainables.add(obstacle)
         materials_dept.visible_objects.add(obstacle)
 
+        not_obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'not_obtns', 'dept_door.png')).convert_alpha()
+
+        dept_door = OpenDoor(98, 170, not_obt_image, 'DEPARTMENTS', True)
+        materials_dept.not_obtainables.add(dept_door)
+        materials_dept.visible_objects.add(dept_door)
+
         # Blackout
         black_screen = pygame.sprite.Group()
 
@@ -142,7 +150,8 @@ class Game():
 
         self.scenarios_dict = {'MAIN_AREA'      : main_area,
                                'WAREHOUSE_ENT'  : warehouse_ent,
-                               'GREEN_ROOM'     : None,
+                               'WORKSHOP'       : None,
+                               'PV_ROOM'        : None,
                                'DEPARTMENTS'    : departments,
                                'MATERIALS_DEPT' : materials_dept}
 

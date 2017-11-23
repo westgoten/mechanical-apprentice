@@ -84,6 +84,36 @@ class UnlockedDoor(pygame.sprite.Sprite):
     def item_interaction(self, inventory):
         pass
 
+class OpenDoor(pygame.sprite.Sprite):
+
+    def __init__(self, x, y, image, next_s, in_demo):
+        super().__init__()
+
+        self.in_demo = in_demo
+
+        self.next_s = next_s
+
+        self.image = image
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def click(self, scenario, inventory):
+        mouse_pos = pygame.mouse.get_pos()
+
+        if self.rect.collidepoint(mouse_pos):
+            if self.in_demo:
+                if self.next_s != None:
+                    scenario.next_s = self.next_s
+                else:
+                    print('Próximo cenário!')
+            else:
+                print('Área inacessível nesta versão do jogo.')
+
+    def item_interaction(self, inventory):
+        pass
+
 class Obstacle(pygame.sprite.Sprite):
 
     def __init__(self, x, y, image, obtainable_class, obtainable_args):
