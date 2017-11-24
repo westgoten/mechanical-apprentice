@@ -114,14 +114,6 @@ class Game():
 
         materials_dept = scenario.Template(background, 'MATERIALS_DEPT')
 
-        materials_dept_details = [((SCR_WIDTH - 300) // 2, SCR_HEIGHT - 150, 300, 150, 'DEPARTMENTS', True)]
-
-        for detail in materials_dept_details:
-            dimensions = detail[0:4]
-            next_s = detail[4]
-            in_demo = detail[5]
-            materials_dept.details.add(ead.Template(materials_dept, dimensions, next_s, in_demo))
-
         # Not obtainables (+ hidden obtainable)
         not_obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'not_obtns', 'obstacle.png')).convert_alpha()
         obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'obtns', 'warehouse_key.png')).convert_alpha()

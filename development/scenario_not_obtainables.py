@@ -21,10 +21,20 @@ class LockedDoor(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+        self.mask = pygame.mask.from_surface(self.image)
+
     def click(self, scenario, inventory):
         mouse_pos = pygame.mouse.get_pos()
 
-        if self.rect.collidepoint(mouse_pos):
+        click_x = mouse_pos[0] - self.rect.x
+        click_y = mouse_pos[1] - self.rect.y
+
+        try:
+            clicked = self.mask.get_at((click_x, click_y))
+        except IndexError:
+            clicked = False
+
+        if clicked:
             if self.state_index == 0:
                 print('A porta está trancada.')
             elif self.state_index == 1:
@@ -65,10 +75,20 @@ class UnlockedDoor(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+        self.mask = pygame.mask.from_surface(self.image)
+
     def click(self, scenario, inventory):
         mouse_pos = pygame.mouse.get_pos()
 
-        if self.rect.collidepoint(mouse_pos):
+        click_x = mouse_pos[0] - self.rect.x
+        click_y = mouse_pos[1] - self.rect.y
+
+        try:
+            clicked = self.mask.get_at((click_x, click_y))
+        except IndexError:
+            clicked = False
+
+        if clicked:
             if self.in_demo:
                 if self.state_index == 0:
                     self.state_index += 1
@@ -99,10 +119,20 @@ class OpenDoor(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+        self.mask = pygame.mask.from_surface(self.image)
+
     def click(self, scenario, inventory):
         mouse_pos = pygame.mouse.get_pos()
 
-        if self.rect.collidepoint(mouse_pos):
+        click_x = mouse_pos[0] - self.rect.x
+        click_y = mouse_pos[1] - self.rect.y
+
+        try:
+            clicked = self.mask.get_at((click_x, click_y))
+        except IndexError:
+            clicked = False
+
+        if clicked:
             if self.in_demo:
                 if self.next_s != None:
                     scenario.next_s = self.next_s
@@ -130,11 +160,21 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+        self.mask = pygame.mask.from_surface(self.image)
+
     def click(self, scenario, inventory):
         mouse_pos = pygame.mouse.get_pos()
 
+        click_x = mouse_pos[0] - self.rect.x
+        click_y = mouse_pos[1] - self.rect.y
+
+        try:
+            clicked = self.mask.get_at((click_x, click_y))
+        except IndexError:
+            clicked = False
+
         if inventory.flashlight_working:
-            if self.rect.collidepoint(mouse_pos):
+            if clicked:
                 # Lembre-se do efeito sonoro
                 if self.state == 'IDLE':
                     self.rect.x += 19
