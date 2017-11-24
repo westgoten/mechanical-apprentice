@@ -13,6 +13,8 @@ class Template():
         self.details = pygame.sprite.Group()
         self.visible_objects = pygame.sprite.Group()
 
+        self.buttons = pygame.sprite.Group()
+        
         self.background = background
         self.black_screen = None
 

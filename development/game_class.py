@@ -10,6 +10,7 @@ from scenario_obtainables import Obtainable
 from scenario_not_obtainables import *
 from inventory_objects import *
 import exits_and_details as ead
+from buttons import *
 from constants import *
 
 class Game():
@@ -127,6 +128,13 @@ class Game():
         dept_door = OpenDoor(98, 170, not_obt_image, 'DEPARTMENTS', True)
         materials_dept.not_obtainables.add(dept_door)
         materials_dept.visible_objects.add(dept_door)
+        
+        # Buttons
+        state1 = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'buttons', 'back_arrow1.png')).convert_alpha()
+        state2 = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'buttons', 'back_arrow2.png')).convert_alpha()
+        
+        back_arrow = ButtonJustClick(20, 621, [state1, state2], 'DEPARTMENTS')
+        materials_dept.buttons.add(back_arrow)
 
         # Blackout
         black_screen = pygame.sprite.Group()
@@ -156,6 +164,7 @@ class Game():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.current_scenario.obtainables.update(self.bag, event.pos)
                 self.current_scenario.details.update(event.pos)
+                self.current_scenario.buttons.update(self.current_scenario, True)
 
                 for obj in self.current_scenario.not_obtainables:
                     obj.click(self.current_scenario, self.bag)
@@ -176,6 +185,7 @@ class Game():
         previous_scenario = self.current_scenario
 
         self.bag.update(self.current_scenario, self.light_ray)
+        self.current_scenario.buttons.update(self.current_scenario, False)
 
         self.current_scenario = self.scenarios_dict[self.current_scenario.next_s]
 
@@ -186,5 +196,7 @@ class Game():
         self.current_scenario.draw(screen)
         if self.current_scenario.black_screen != None and self.bag.flashlight_working:
             self.light_ray.draw(screen)
+        elif self.current_scenario.black_screen != None and not self.bag.flashlight_working:
+            self.current_scenario.buttons.draw(screen)
         self.bag.draw(screen)
         pygame.display.flip()
