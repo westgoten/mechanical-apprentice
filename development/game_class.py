@@ -162,8 +162,8 @@ class Game():
             if event.type == pygame.QUIT:
                 return True
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                self.current_scenario.obtainables.update(self.bag, True)
-                self.current_scenario.details.update(True)
+                self.current_scenario.obtainables.update(self.bag, event.pos)
+                self.current_scenario.details.update(event.pos)
                 self.current_scenario.buttons.update(self.current_scenario, True)
 
                 for obj in self.current_scenario.not_obtainables:
@@ -186,15 +186,11 @@ class Game():
 
         self.bag.update(self.current_scenario, self.light_ray)
         self.current_scenario.buttons.update(self.current_scenario, False)
-        self.current_scenario.obtainables.update(self.bag, False)
-        self.current_scenario.not_obtainables.update()
-        self.current_scenario.details.update(False)
 
         self.current_scenario = self.scenarios_dict[self.current_scenario.next_s]
 
         if self.current_scenario != previous_scenario:
             previous_scenario.next_s = previous_scenario.default_s
-            pygame.mouse.set_cursor(*pygame.cursors.arrow)
 
     def draw_frame(self, screen):
         self.current_scenario.draw(screen)

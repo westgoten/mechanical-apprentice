@@ -4,6 +4,7 @@ This script includes a function that can compile cursor data from an image.
 -Sean McKiernan
 """
 
+import os
 import pygame as pg
 
 
@@ -41,3 +42,19 @@ def cursor_from_image(image,size,hotspot,location=(0,0),flip=False):
     xors,ands = pg.cursors.compile(cursor_string, *compile_args)
     size = size, size
     return size, hotspot, xors, ands
+
+"""
+Cursors dict.
+
+-Rodrigo de Oliveira
+"""
+
+cursor_image1 = pg.image.load(os.path.join('data', 'images', 'cursors', 'hand.png'))
+cursor_data1 = cursor_from_image(cursor_image1, 16, (5, 1), (0, 0))
+
+cursor_image2 = pg.image.load(os.path.join('data', 'images', 'cursors', 'hand2.png'))
+cursor_data2 = cursor_from_image(cursor_image2, 16, (5, 1), (0, 0))
+
+cursors_dict = {'Hand'    : cursor_data1,
+                'Hand2'   : cursor_data2,
+                'Default' : pg.cursors.arrow}
