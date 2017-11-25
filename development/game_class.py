@@ -38,7 +38,7 @@ class Game():
 
         warehousekey_i = WarehouseKey()
         self.bag.objects.add(warehousekey_i)
-
+        
         # Main area
         background = pygame.image.load(os.path.join('data', 'images', 'scenario', 'main_area', 'main_area.png')).convert_alpha()
 
