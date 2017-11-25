@@ -1,4 +1,6 @@
+import os
 import pygame
+from cursor import cursor_from_image
 
 class Obtainable(pygame.sprite.Sprite):
 
@@ -15,16 +17,30 @@ class Obtainable(pygame.sprite.Sprite):
 
         self.matching_class = matching_class
 
-    def update(self, inventory, mouse_pos):
-        click_x = mouse_pos[0] - self.rect.x
-        click_y = mouse_pos[1] - self.rect.y
+        self.has_left = 0
+        cursor_image = pygame.image.load(os.path.join('data', 'images', 'cursors', 'hand.png'))
+        self.cursor_data = cursor_from_image(cursor_image, 16, (5, 1), (0, 0))
+
+    def update(self, inventory, pressed):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        mouse_x -= self.rect.x
+        mouse_y -= self.rect.y
 
         try:
-            clicked = self.mask.get_at((click_x, click_y))
+            has_touched = self.mask.get_at((mouse_x, mouse_y))
         except IndexError:
-            clicked = False
+            has_touched = False
 
-        if clicked:
+        if has_touched:
+            self.has_left = 1
+            pygame.mouse.set_cursor(*self.cursor_data)
+        elif self.has_left == 1:
+            pygame.mouse.set_cursor(*pygame.cursors.arrow)
+            self.has_left = 0
+            
+        if has_touched and pressed:
+            pygame.mouse.set_cursor(*pygame.cursors.arrow)
             for obj in inventory.objects:
                 if isinstance(obj, self.matching_class):
                     obj.obtained_signal = True

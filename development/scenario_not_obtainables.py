@@ -1,5 +1,7 @@
+import os
 import pygame
 from constants import *
+from cursor import cursor_from_image
 
 class LockedDoor(pygame.sprite.Sprite): 
 
@@ -22,6 +24,28 @@ class LockedDoor(pygame.sprite.Sprite):
         self.rect.y = y
 
         self.mask = pygame.mask.from_surface(self.image)
+
+        self.has_left = 0
+        cursor_image = pygame.image.load(os.path.join('data', 'images', 'cursors', 'hand.png'))
+        self.cursor_data = cursor_from_image(cursor_image, 16, (5, 1), (0, 0))
+
+    def update(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        mouse_x -= self.rect.x
+        mouse_y -= self.rect.y
+
+        try:
+            has_touched = self.mask.get_at((mouse_x, mouse_y))
+        except IndexError:
+            has_touched = False
+
+        if has_touched:
+            self.has_left = 1
+            pygame.mouse.set_cursor(*self.cursor_data)
+        elif self.has_left == 1:
+            pygame.mouse.set_cursor(*pygame.cursors.arrow)
+            self.has_left = 0
 
     def click(self, scenario, inventory):
         mouse_pos = pygame.mouse.get_pos()
@@ -77,6 +101,28 @@ class UnlockedDoor(pygame.sprite.Sprite):
 
         self.mask = pygame.mask.from_surface(self.image)
 
+        self.has_left = 0
+        cursor_image = pygame.image.load(os.path.join('data', 'images', 'cursors', 'hand.png'))
+        self.cursor_data = cursor_from_image(cursor_image, 16, (5, 1), (0, 0))
+
+    def update(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        mouse_x -= self.rect.x
+        mouse_y -= self.rect.y
+
+        try:
+            has_touched = self.mask.get_at((mouse_x, mouse_y))
+        except IndexError:
+            has_touched = False
+
+        if has_touched:
+            self.has_left = 1
+            pygame.mouse.set_cursor(*self.cursor_data)
+        elif self.has_left == 1:
+            pygame.mouse.set_cursor(*pygame.cursors.arrow)
+            self.has_left = 0
+
     def click(self, scenario, inventory):
         mouse_pos = pygame.mouse.get_pos()
 
@@ -121,6 +167,28 @@ class OpenDoor(pygame.sprite.Sprite):
 
         self.mask = pygame.mask.from_surface(self.image)
 
+        self.has_left = 0
+        cursor_image = pygame.image.load(os.path.join('data', 'images', 'cursors', 'hand.png'))
+        self.cursor_data = cursor_from_image(cursor_image, 16, (5, 1), (0, 0))
+
+    def update(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        mouse_x -= self.rect.x
+        mouse_y -= self.rect.y
+
+        try:
+            has_touched = self.mask.get_at((mouse_x, mouse_y))
+        except IndexError:
+            has_touched = False
+
+        if has_touched:
+            self.has_left = 1
+            pygame.mouse.set_cursor(*self.cursor_data)
+        elif self.has_left == 1:
+            pygame.mouse.set_cursor(*pygame.cursors.arrow)
+            self.has_left = 0
+
     def click(self, scenario, inventory):
         mouse_pos = pygame.mouse.get_pos()
 
@@ -162,6 +230,29 @@ class Obstacle(pygame.sprite.Sprite):
 
         self.mask = pygame.mask.from_surface(self.image)
 
+        self.has_left = 0
+        cursor_image = pygame.image.load(os.path.join('data', 'images', 'cursors', 'hand.png'))
+        self.cursor_data = cursor_from_image(cursor_image, 16, (5, 1), (0, 0))
+
+    def update(self):
+        if self.state == 'IDLE':
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+
+            mouse_x -= self.rect.x
+            mouse_y -= self.rect.y
+
+            try:
+                has_touched = self.mask.get_at((mouse_x, mouse_y))
+            except IndexError:
+                has_touched = False
+
+            if has_touched:
+                self.has_left = 1
+                pygame.mouse.set_cursor(*self.cursor_data)
+            elif self.has_left == 1:
+                pygame.mouse.set_cursor(*pygame.cursors.arrow)
+                self.has_left = 0
+
     def click(self, scenario, inventory):
         mouse_pos = pygame.mouse.get_pos()
 
@@ -177,6 +268,7 @@ class Obstacle(pygame.sprite.Sprite):
             if clicked:
                 # Lembre-se do efeito sonoro
                 if self.state == 'IDLE':
+                    pygame.mouse.set_cursor(*pygame.cursors.arrow)
                     self.rect.x += 19
                     self.state = 'MOVED'
 
