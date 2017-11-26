@@ -146,7 +146,7 @@ class OpenDoor(pygame.sprite.Sprite):
 
 class Obstacle(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, image, obtainable_class, obtainable_args):
+    def __init__(self, start_pos, new_pos, image, obtainable_class, obtainable_args):
         super().__init__()
 
         self.obtainable_class = obtainable_class
@@ -157,8 +157,9 @@ class Obstacle(pygame.sprite.Sprite):
         self.image = image
 
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.topleft = start_pos
+
+        self.new_pos = new_pos
 
         self.mask = pygame.mask.from_surface(self.image)
 
@@ -177,12 +178,48 @@ class Obstacle(pygame.sprite.Sprite):
             if clicked:
                 # Lembre-se do efeito sonoro
                 if self.state == 'IDLE':
-                    self.rect.x += 19
+                    self.rect.topleft = self.new_pos
                     self.state = 'MOVED'
 
                     warehousekey_s = self.obtainable_class(*self.obtainable_args)
                     scenario.obtainables.add(warehousekey_s)
                     scenario.visible_objects.add(warehousekey_s)
+
+    def item_interaction(self, inventory):
+        pass
+
+class FalseTrail(pygame.sprite.Sprite):
+
+    def __init__(self, start_pos, new_pos, image):
+        super().__init__()
+
+        self.state = 'IDLE'
+
+        self.image = image
+
+        self.rect = self.image.get_rect()
+        self.rect.topleft = start_pos
+
+        self.new_pos = new_pos
+
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def click(self, scenario, inventory):
+        mouse_pos = pygame.mouse.get_pos()
+
+        click_x = mouse_pos[0] - self.rect.x
+        click_y = mouse_pos[1] - self.rect.y
+
+        try:
+            clicked = self.mask.get_at((click_x, click_y))
+        except IndexError:
+            clicked = False
+
+        if clicked:
+            # Lembre-se do efeito sonoro
+            if self.state == 'IDLE':
+                self.rect.topleft = self.new_pos
+                self.state = 'MOVED'
 
     def item_interaction(self, inventory):
         pass

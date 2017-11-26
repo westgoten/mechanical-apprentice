@@ -116,12 +116,18 @@ class Game():
         materials_dept = scenario.Template(background, 'MATERIALS_DEPT')
 
         # Not obtainables (+ hidden obtainable)
-        not_obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'not_obtns', 'obstacle.png')).convert_alpha()
+        not_obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'not_obtns', 'docs.png')).convert_alpha()
         obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'obtns', 'warehouse_key.png')).convert_alpha()
 
-        obstacle = Obstacle(776, 356, not_obt_image, Obtainable, [778, 376, obt_image, WarehouseKey])
+        obstacle = Obstacle((381, 286.27), (412, 310), not_obt_image, Obtainable, [391, 304, obt_image, WarehouseKey])
         materials_dept.not_obtainables.add(obstacle)
         materials_dept.visible_objects.add(obstacle)
+
+        not_obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'not_obtns', 'pencils.png')).convert_alpha()
+
+        a_object = FalseTrail((776, 356), (795, 356), not_obt_image)
+        materials_dept.not_obtainables.add(a_object)
+        materials_dept.visible_objects.add(a_object)
 
         not_obt_image = pygame.image.load(os.path.join('data', 'images', 'scenario', 'departments', 'materials', 'not_obtns', 'dept_door.png')).convert_alpha()
 

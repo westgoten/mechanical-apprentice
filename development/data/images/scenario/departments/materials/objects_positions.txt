@@ -1,5 +1,0 @@
-Porta: X = 98; Y = 170.
-
-Porta-lápis: X = 776; Y = 356; Move = (X + 19).
-
-Chave do almoxarifado: X = 778; Y = 376.
