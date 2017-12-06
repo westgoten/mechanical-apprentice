@@ -12,7 +12,7 @@ def main():
 
     # -- Set up game window --
     screen = pygame.display.set_mode([SCR_WIDTH, SCR_HEIGHT])
-    pygame.display.set_caption("Aprendiz De Mecânico")
+    pygame.display.set_caption("Aprendiz De Mecânico (demo)")
 
     # -- Used to set the frame rate --
     clock = pygame.time.Clock()
