@@ -46,6 +46,7 @@ class Game():
         main_area = scenario.Template(background, 'MAIN_AREA')
 
         main_area_details = [(579, 255, 194, 163, 'WAREHOUSE_ENT', True),
+                              (675, 154, 65, 100, 'WAREHOUSE_ENT', True),
                               (815, 308, 96, 184, 'DEPARTMENTS', True),
                               (114, 315, 97, 187, 'PV_ROOM', False),
                               (497, 275, 26, 26, 'WORKSHOP', False)]

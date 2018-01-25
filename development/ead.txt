@@ -1,6 +1,7 @@
 Main Area: (Feito)
 
-warehouse_entrance - 194 (W) x 163 (H); P(579, 255)
+warehouse_entrance_1 - 194 (W) x 163 (H); P(579, 255)
+warehouse_entrance_2 - 65 (W) x 100 (H); P(675, 154)
 departments - 96 (W) x 184 (H); P(815, 308)
 pressure_vessels - 97 (W) x 187(H); P(114, 315)
 workshop (invisibl) - 26 (W) x 26 (H); P(497, 275)
