@@ -2,9 +2,11 @@
 
 Adventure game for mechanical technicians (Unfinished)
 
+[startscreen](./screenshot.png)
+
 This game was built for my term paper at the end of my Associate Degree in Mechanics (between July/2017 ~ December/2017).
 
-But, due to health problems, I couldn't finish the game.
+But, due to health issues, I couldn't finish the game.
 
 ## How to run the game
 
