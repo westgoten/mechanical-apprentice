@@ -1,10 +1,13 @@
 # -*- mode: python -*-
 
+import os
+
+spec_root = os.path.abspath(SPECPATH)
+
 block_cipher = None
 
-
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\ADMJ\\Desktop\\Estudo\\Programming\\repos\\tcc-game\\executable\\demo'],
+             pathex=[spec_root],
              binaries=[],
              datas=[('data', 'data')],
              hiddenimports=[],
