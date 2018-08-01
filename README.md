@@ -2,7 +2,7 @@
 
 Adventure game for mechanical technicians (Unfinished)
 
-[startscreen](./screenshot.png)
+![startscreen](./screenshot.png)
 
 This game was built for my term paper at the end of my Associate Degree in Mechanics (between July/2017 ~ December/2017).
 
