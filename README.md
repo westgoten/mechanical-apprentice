@@ -23,3 +23,7 @@ If any problem occurs, checkout the PyInstaller [Documentation](https://pyinstal
 ## Contributing
 
 Pull requests are welcome :)
+
+## License
+
+See the [LICENSE](LICENSE) file for license rights and limitations.
